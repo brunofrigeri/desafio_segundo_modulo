@@ -15,12 +15,12 @@ const AppointmentController = require('./app/controllers/AppointmentController')
 const AvailableController = require('./app/controllers/AvailableController')
 const ScheduleController = require('./app/controllers/ScheduleController')
 
-routes.use((req, res, next)=> {
-  res.locals.flashSuccess = req.flash('success')
-  res.locals.flashError = req.flash('error')
+// routes.use((req, res, next)=> {
+//   res.locals.flashSuccess = req.flash('success')
+//   res.locals.flashError = req.flash('error')  
 
-  return next()
-})
+//   return next()
+// })
 
 routes.get('/files/:file', FileController.show)
 
@@ -32,16 +32,21 @@ routes.post('/signin', SessionController.store);
 routes.get('/signup', guestMiddleware, UserController.create);
 routes.post('/signup', upload.single('avatar'), UserController.store);
 
+
 //Logados
 routes.use('/app', authMiddleware);
 
 routes.get('/app/logout', SessionController.destroy);
 routes.get('/app/dashboard', DashboardController.index);
-routes.get('/app/schedule', ScheduleController.index);
-routes.get('/app/schedule/new/:appointment', ScheduleController.show)
 
 routes.get('/app/appointments/new/:provider', AppointmentController.create);
 routes.post('/app/appointments/new/:provider', AppointmentController.store);
 routes.get('/app/available/:provider', AvailableController.index);
+
+routes.get('/app/schedule', (req, res) => res.render('schedule'));
+
+//Novo
+//routes.get('/app/schedule/new/:provider', ScheduleController.create);
+routes.get('/app/schedule/:provider', ScheduleController.show)
 
 module.exports = routes;

@@ -2,44 +2,29 @@
 
 {% block body %}
   <div class="content">
-    <strong> Olá, {{ user.name }} </strong>
-    <p>A sua agenda de horários é: </p>  
-
-    {# <ul class="providers">
-      <form action="/app/schedule/new/{{ appointment.id }}" method="GET">
-        <input type="text" class="flatpickr" placeholder="Escolha uma data">
-        <div id="hours"></div>
-        <button type="submit">Ver agenda</button>
-      </form>    
-    </ul> #}
-
+    <strong> Olá, {{ user.name }} </strong>    
+    <p>Seu(s) Agendamento(s):</p>
+    
     <ul class="providers">
-      {% for appointment in appointments %}              
-          <li class="provider">            
-            <div>                          
-              <img src="/files/{{ appointment.user.avatar }}" />              
-              <strong> {{ appointment.user.name }} <br> {{ appointment.date | date("HH:mm") }} </strong>
-            </div>                      
-          </li>                  
-      {% endfor %}
-    </ul>
+      <form action="/app/schedule/{{ user.id }}" method="POST">
+        <input type="text" class="flatpickr" placeholder="Escolha uma data para ver a agenda">
+        <div id="schedules"></div>        
+      </form>    
+    </ul>                          
 
     <a href='/app/logout' class="logout">Sair</a>
-  </div>  
 
-
-  {# <script type="text/javascript">
-    flatpickr('.flatpickr', {
-      minDate: new Date(),
+  <script type="text/javascript">
+    flatpickr('.flatpickr', {      
       dateFormat: 'd/m/Y',
-      onChange: function (date) {
-        fetch(`/app/available/{{ provider.id }}?date=${date[0].getTime()}`).then(function (response) {
+      onChange: function(date) {
+        fetch(`/app/schedule/{{ user.id }}?date=${date[0].getTime()}`).then(function (response){
           response.text().then(function (html) {
-            document.getElementById('hours').innerHTML = html
+            document.getElementById('schedules').innerHTML = html
           })
-        })        
+        })
       }
     })
-  </script> #}
+  </script>
 
 {% endblock %}

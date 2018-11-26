@@ -1,4 +1,5 @@
 const { User, appointment } = require('../models')
+const moment = require('moment')
 
 class AppointmentController {
   async create(req, res) {
@@ -16,8 +17,8 @@ class AppointmentController {
       user_id: id,
       provider_id: provider,
       date
-    })
-    
+    })        
+
     return res.redirect('/app/dashboard')
   }  
 }

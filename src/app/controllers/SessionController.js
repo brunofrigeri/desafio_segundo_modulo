@@ -8,25 +8,25 @@ class SessionController {
   async store(req, res) {
     const { email, password } = req.body
 
-    const user = await User.findOne({ where: { email } })
+    const user = await User.findOne({ where: { email } })    
 
     if(!user) {
-      req.flash('error', 'Usuário não encontrado');
+      //req.flash('error', 'Usuário não encontrado')
       return res.redirect('/')
     }
 
     if(!(await user.checkPassword(password))){
-      req.flash('error', 'Senha inválida');
+      //req.flash('error', 'Senha inválida');
       return res.redirect('/')
     }
 
-    req.session.user = user        
+    req.session.user = user    
     
-    if(user.provider) {    
+    if(user.provider){
       return res.redirect('/app/schedule')
-    } 
-      
-    return res.redirect('/app/dashboard')    
+    }
+    
+    return res.redirect('/app/dashboard')
   }
 
   destroy (req, res) {

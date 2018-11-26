@@ -1,0 +1,12 @@
+{% if appointments[0]  %}      
+  {% for appointment in appointments %}          
+    <label class="provider">              
+      <div>           
+        <img src="/files/{{ appointment.user.avatar }}" />              
+        <strong> {{ appointment.user.name }} <br> {{ appointment.date | date("HH:mm") }} </strong>             
+      </div>                      
+    </label>                  
+  {% endfor %}    
+{% else %}  
+  <p>Nenhum agendamento marcado</p>
+{% endif %}
